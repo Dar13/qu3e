@@ -27,20 +27,30 @@
 #ifndef Q3MEMORY_H
 #define Q3MEMORY_H
 
-#include <malloc.h>
+#include <stdlib.h>
 
 #include "q3Types.h"
 
 //--------------------------------------------------------------------------------------------------
 // Memory Macros
 //--------------------------------------------------------------------------------------------------
+inline void* q3Alloc( i32 bytes )
+{
+	return malloc( bytes );
+}
+
+inline void q3Free( void* memory )
+{
+	free( memory );
+}
+
 #define Q3_PTR_ADD( P, BYTES ) \
 	((decltype( P ))(((u8 *)P) + (BYTES)))
 
 //--------------------------------------------------------------------------------------------------
 // q3Stack
 //--------------------------------------------------------------------------------------------------
-// 1MB stack size
+// 20MB stack size, change as necessary
 const i32 q3k_stackSize = 1024 * 1024 * 20;
 
 class q3Stack
@@ -73,7 +83,7 @@ private:
 //--------------------------------------------------------------------------------------------------
 // q3Heap
 //--------------------------------------------------------------------------------------------------
-// 1 MB heap size
+// 20 MB heap size, change as necessary
 const i32 q3k_heapSize = 1024 * 1024 * 20;
 const i32 q3k_heapInitialCapacity = 1024;
 

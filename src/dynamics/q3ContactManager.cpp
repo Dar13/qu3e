@@ -197,7 +197,6 @@ void q3ContactManager::RemoveFromBroadphase( q3Body *body )
 void q3ContactManager::TestCollisions( void )
 {
 	q3ContactConstraint* constraint = m_contactList;
-	i32 constraintCount = 0;
 
 	while( constraint )
 	{
@@ -262,24 +261,21 @@ void q3ContactManager::TestCollisions( void )
 
 		if ( m_contactListener )
 		{
-			for ( i32 i = 0; i < constraintCount; ++i )
-			{
-				if (
-					constraint->m_flags & q3ContactConstraint::eColliding &&
-					!(constraint->m_flags & q3ContactConstraint::eWasColliding)
-					)
-				{
-					m_contactListener->BeginContact( constraint );
-				}
+            if (
+                constraint->m_flags & q3ContactConstraint::eColliding &&
+                !(constraint->m_flags & q3ContactConstraint::eWasColliding)
+                )
+            {
+                m_contactListener->BeginContact( constraint );
+            }
 
-				else if (
-					!(constraint->m_flags & q3ContactConstraint::eColliding) &&
-					constraint->m_flags & q3ContactConstraint::eWasColliding
-					)
-				{
-					m_contactListener->EndContact( constraint );
-				}
-			}
+            else if (
+                !(constraint->m_flags & q3ContactConstraint::eColliding) &&
+                constraint->m_flags & q3ContactConstraint::eWasColliding
+                )
+            {
+                m_contactListener->EndContact( constraint );
+            }
 		}
 
 		constraint = constraint->next;
@@ -318,9 +314,9 @@ void q3ContactManager::RenderContacts( q3Render* render ) const
 
 			render->SetPenPosition( c->position.x, c->position.y, c->position.z );
 			render->Line(
-				c->position.x + m->normal.x,
-				c->position.y + m->normal.y,
-				c->position.z + m->normal.z
+				c->position.x + m->normal.x * 0.5f,
+				c->position.y + m->normal.y * 0.5f,
+				c->position.z + m->normal.z * 0.5f
 				);
 		}
 

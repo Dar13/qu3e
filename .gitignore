@@ -35,3 +35,7 @@
 *.stamp
 *.depend
 *.list
+CmakeFiles/
+build/
+*.check_cache
+CMakeCache.txt
